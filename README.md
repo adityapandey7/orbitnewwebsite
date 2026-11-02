@@ -21,10 +21,9 @@ required base path for the destination repository or deployment environment.
 ## GitHub Pages
 
 The workflow in `.github/workflows/deploy.yml` builds and deploys the site when
-changes are pushed to `main`, and attempts to enable Pages automatically. If
-GitHub does not allow automatic enablement, set **Settings → Pages → Build and
-deployment → Source** to **GitHub Actions**. The site will then be available at
-<https://adityapandey7.github.io/ornitnewwebsite/>.
+changes are pushed to `main`. Set **Settings → Pages → Build and deployment →
+Source** to **GitHub Actions**. The site will then be available at
+<https://adityapandey7.github.io/orbitnewwebsite/>.
 
 The quote form is currently a front-end demo and does not send or store
 submissions.
