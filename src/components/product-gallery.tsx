@@ -36,7 +36,7 @@ export function ProductGallery({
             className={cn(
               "overflow-hidden rounded-xl border bg-[#f5f5f5] transition",
               view === v
-                ? "border-[#da1515] ring-2 ring-[#da1515]/25"
+                ? "border-[#c4620a] ring-2 ring-[#c4620a]/25"
                 : "border-slate-200 hover:border-slate-300",
             )}
           >

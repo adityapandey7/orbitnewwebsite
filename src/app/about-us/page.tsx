@@ -38,7 +38,7 @@ export default function AboutPage() {
       <section className="container-x mt-12 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-center">
         <div>
           <p className="eyebrow">Our story</p>
-          <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[#161616] sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[#002f49] sm:text-3xl">
             A trusted technology partner, not just a supplier
           </h2>
           <p className="mt-4 leading-relaxed text-slate-600">
@@ -55,14 +55,14 @@ export default function AboutPage() {
             pan-India presence, we cater to a substantial customer base throughout the
             country.
           </p>
-          <Link href="/contact#quote" className="btn btn-accent mt-6">
+          <Link href="/contact-us#quote" className="btn btn-accent mt-6">
             Talk to our team <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-4">
           {stats.map((s) => (
             <div key={s.label} className="surface p-5 text-center">
-              <p className="text-3xl font-black tracking-tight text-[#da1515]">{s.value}</p>
+              <p className="text-3xl font-black tracking-tight text-[#c4620a]">{s.value}</p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
                 {s.label}
               </p>
@@ -75,12 +75,12 @@ export default function AboutPage() {
       <section id="manufacturer" className="band mt-16 scroll-mt-28 border-y border-slate-200 py-14">
         <div className="container-x">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#da1515] text-white">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#c4620a] text-white">
               <Factory className="h-5 w-5" />
             </span>
             <div>
               <p className="eyebrow">Manufacturing</p>
-              <h2 className="text-2xl font-extrabold tracking-tight text-[#161616] sm:text-3xl">
+              <h2 className="text-2xl font-extrabold tracking-tight text-[#002f49] sm:text-3xl">
                 Orbit as a Manufacturer
               </h2>
             </div>
@@ -111,14 +111,14 @@ export default function AboutPage() {
               {groupCompanies.map((g) => (
                 <div key={g.name} className="surface p-6">
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="font-bold text-[#161616]">{g.name}</h3>
+                    <h3 className="font-bold text-[#002f49]">{g.name}</h3>
                     {g.since && <span className="chip chip-accent">Since {g.since}</span>}
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{g.detail}</p>
                 </div>
               ))}
               <div className="surface p-6">
-                <h3 className="font-bold text-[#161616]">Orbit Group of Companies</h3>
+                <h3 className="font-bold text-[#002f49]">Orbit Group of Companies</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
                   A group united by one goal — bringing world-class analytical technology
                   to the Indian market, whether built here or represented from abroad.
@@ -132,12 +132,12 @@ export default function AboutPage() {
       {/* ------------------------------ distributor ------------------------------ */}
       <section id="distributor" className="container-x mt-16 scroll-mt-28">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#da1515] text-white">
+          <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#c4620a] text-white">
             <Handshake className="h-5 w-5" />
           </span>
           <div>
             <p className="eyebrow">Distribution</p>
-            <h2 className="text-2xl font-extrabold tracking-tight text-[#161616] sm:text-3xl">
+            <h2 className="text-2xl font-extrabold tracking-tight text-[#002f49] sm:text-3xl">
               Orbit as a Distributor
             </h2>
           </div>
@@ -170,8 +170,8 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="surface p-6">
-            <Globe2 className="h-6 w-6 text-[#da1515]" />
-            <h3 className="mt-3 font-bold text-[#161616]">Pan-India branch offices</h3>
+            <Globe2 className="h-6 w-6 text-[#c4620a]" />
+            <h3 className="mt-3 font-bold text-[#002f49]">Pan-India branch offices</h3>
             <p className="mt-1.5 text-sm text-slate-600">
               Sales and service locations within reach of every customer.
             </p>
@@ -186,14 +186,14 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-8">
-          <h3 className="text-lg font-extrabold tracking-tight text-[#161616]">
+          <h3 className="text-lg font-extrabold tracking-tight text-[#002f49]">
             Our partners
           </h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {partners.map((p) => (
               <div key={p.name} className="surface p-5">
-                <p className="font-bold text-[#161616]">{p.name}</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-[#da1515]">
+                <p className="font-bold text-[#002f49]">{p.name}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-[#c4620a]">
                   {p.country}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{p.focus}</p>
@@ -207,12 +207,12 @@ export default function AboutPage() {
       <section id="clients" className="band mt-16 scroll-mt-28 border-y border-slate-200 py-14">
         <div className="container-x">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#da1515] text-white">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#c4620a] text-white">
               <Building2 className="h-5 w-5" />
             </span>
             <div>
               <p className="eyebrow">Our clients</p>
-              <h2 className="text-2xl font-extrabold tracking-tight text-[#161616] sm:text-3xl">
+              <h2 className="text-2xl font-extrabold tracking-tight text-[#002f49] sm:text-3xl">
                 A vast and eminent clientele
               </h2>
             </div>
@@ -224,8 +224,8 @@ export default function AboutPage() {
           <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {clientSectors.map((c) => (
               <li key={c} className="surface flex items-center gap-3 p-4">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-[#da1515]" />
-                <span className="text-sm font-semibold text-[#161616]">{c}</span>
+                <span className="h-2 w-2 shrink-0 rounded-full bg-[#c4620a]" />
+                <span className="text-sm font-semibold text-[#002f49]">{c}</span>
               </li>
             ))}
           </ul>

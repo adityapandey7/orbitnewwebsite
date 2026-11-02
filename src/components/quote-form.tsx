@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, FlaskConical, Send } from "lucide-react";
-import { categories } from "@/data/products";
+import { categories, pillars } from "@/data/categories";
 
 export function QuoteForm({
   context,
@@ -17,15 +17,19 @@ export function QuoteForm({
   const [name, setName] = useState("");
   const [product, setProduct] = useState(initialCategory ?? "");
 
+  const rootSections = categories.filter((c) => c.parent === null);
+
   if (sent) {
     return (
       <div className="surface p-10 text-center">
         <CheckCircle2 className="mx-auto h-12 w-12 text-[#15803d]" />
-        <h3 className="mt-4 text-lg font-extrabold text-[#161616]">Thank you{name ? `, ${name.split(" ")[0]}` : ""}!</h3>
+        <h3 className="mt-4 text-lg font-extrabold text-[#002f49]">
+          Thank you{name ? `, ${name.split(" ")[0]}` : ""}!
+        </h3>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-600">
           Your enquiry has been recorded. Our team will get back to you within one working
           day{product ? ` about ${product}` : ""}. For urgent requirements, call{" "}
-          <a href="tel:+918143885547" className="font-semibold text-[#da1515] hover:underline">
+          <a href="tel:+918143885547" className="font-semibold text-[#c4620a] hover:underline">
             +91 - 81438 85547
           </a>
           .
@@ -46,7 +50,7 @@ export function QuoteForm({
       className="surface p-6 sm:p-8"
     >
       {context && (
-        <p className="mb-5 flex items-center gap-2 rounded-lg border border-[#fecaca] bg-[#fdeaea] px-3.5 py-2.5 text-sm font-semibold text-[#da1515]">
+        <p className="mb-5 flex items-center gap-2 rounded-lg border border-[#f6dcc4] bg-[#fdeedd] px-3.5 py-2.5 text-sm font-semibold text-[#c4620a]">
           <FlaskConical className="h-4 w-4 shrink-0" />
           Enquiry about: <span className="font-bold">{context}</span>
         </p>
@@ -94,11 +98,19 @@ export function QuoteForm({
             onChange={(e) => setProduct(e.target.value)}
           >
             <option value="">Select a category (optional)</option>
-            {categories.map((c) => (
-              <option key={c.slug} value={c.name}>
-                {c.name}
-              </option>
-            ))}
+            {pillars.map((p) => {
+              const opts = rootSections.filter((c) => c.pillar === p.key);
+              if (!opts.length) return null;
+              return (
+                <optgroup key={p.key} label={p.name}>
+                  {opts.map((c) => (
+                    <option key={c.path} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
             <option value="Other / not sure">Other / not sure yet</option>
           </select>
         </div>

@@ -1,4 +1,4 @@
-name: Deploy Orbit website
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -32,7 +32,9 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /orbitIndia
+          NEXT_PUBLIC_BASE_PATH: /ornitnewwebsite
+      - name: Add Pages marker
+        run: touch ./out/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

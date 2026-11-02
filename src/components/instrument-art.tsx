@@ -116,7 +116,7 @@ export function InstrumentArt({
         strokeWidth="2"
         opacity="0.35"
       />
-      <circle cx="34" cy="264" r="46" fill="#da1515" opacity="0.1" />
+      <circle cx="34" cy="264" r="46" fill="#c4620a" opacity="0.1" />
 
       {view === 0 && (
         <g>
@@ -128,7 +128,7 @@ export function InstrumentArt({
           {/* sample bottle */}
           <rect x="56" y="196" width="34" height="50" rx="7" fill={`url(#${uid}-steel)`} />
           <rect x="61" y="222" width="24" height="24" rx="4" fill="#ff8d0a" opacity="0.45" />
-          <rect x="63" y="186" width="20" height="12" rx="3" fill="#da1515" />
+          <rect x="63" y="186" width="20" height="12" rx="3" fill="#c4620a" />
 
           {/* tubing */}
           <path
@@ -143,7 +143,7 @@ export function InstrumentArt({
           <rect x="108" y="70" width="188" height="176" rx="14" fill={`url(#${uid}-navy)`} />
           <path
             d="M108 84 a14 14 0 0 1 14-14 h160 a14 14 0 0 1 14 14 v20 h-188 z"
-            fill="#da1515"
+            fill="#c4620a"
           />
           <text
             x="124"
@@ -222,7 +222,7 @@ export function InstrumentArt({
             y1="190"
             x2={335 + 9 * Math.cos(dialRad)}
             y2={190 + 9 * Math.sin(dialRad)}
-            stroke="#da1515"
+            stroke="#c4620a"
             strokeWidth="2.5"
             strokeLinecap="round"
           />
@@ -233,7 +233,7 @@ export function InstrumentArt({
               y1={214 + i * 8}
               x2="356"
               y2={214 + i * 8}
-              stroke="#da1515"
+              stroke="#c4620a"
               strokeWidth="3"
               opacity="0.6"
             />
@@ -247,7 +247,7 @@ export function InstrumentArt({
           <rect x="28" y="34" width="344" height="232" rx="18" fill={`url(#${uid}-navy)`} />
           <path
             d="M28 52 a18 18 0 0 1 18-18 h308 a18 18 0 0 1 18 18 v22 h-344 z"
-            fill="#da1515"
+            fill="#c4620a"
           />
           <text
             x="48"
@@ -302,7 +302,7 @@ export function InstrumentArt({
                   y1="238"
                   x2={cx + 11 * Math.cos(a)}
                   y2={238 + 11 * Math.sin(a)}
-                  stroke={i === 0 ? "#ffffff" : "#da1515"}
+                  stroke={i === 0 ? "#ffffff" : "#c4620a"}
                   strokeWidth="3"
                   strokeLinecap="round"
                 />
@@ -334,17 +334,17 @@ export function InstrumentArt({
           ))}
 
           {/* gauge */}
-          <circle cx="200" cy="52" r="26" fill="#ffffff" stroke="#da1515" strokeWidth="4" />
+          <circle cx="200" cy="52" r="26" fill="#ffffff" stroke="#c4620a" strokeWidth="4" />
           <line
             x1="200"
             y1="52"
             x2={200 + 16 * Math.cos(gaugeRad)}
             y2={52 + 16 * Math.sin(gaugeRad)}
-            stroke="#da1515"
+            stroke="#c4620a"
             strokeWidth="3"
             strokeLinecap="round"
           />
-          <circle cx="200" cy="52" r="3.5" fill="#da1515" />
+          <circle cx="200" cy="52" r="3.5" fill="#c4620a" />
 
           {/* plumbing */}
           <path

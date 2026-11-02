@@ -2,23 +2,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { site, branchOffices } from "@/data/site";
-import { categories } from "@/data/products";
+import { megaMenu } from "@/data/categories";
 import { withBasePath } from "@/lib/utils";
 
 const companyLinks = [
-  { href: "/about", label: "About us" },
-  { href: "/about#manufacturer", label: "Orbit as a Manufacturer" },
-  { href: "/about#distributor", label: "Orbit as a Distributor" },
-  { href: "/about#clients", label: "Our Clients" },
+  { href: "/about-us", label: "About us" },
+  { href: "/about-us#manufacturer", label: "Orbit as a Manufacturer" },
+  { href: "/about-us#distributor", label: "Orbit as a Distributor" },
+  { href: "/about-us#clients", label: "Our Clients" },
   { href: "/news", label: "News & Events" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact-us", label: "Contact" },
 ];
 
 export function Footer() {
   return (
-    <footer className="mt-16 bg-[#161616] text-slate-300">
+    <footer className="mt-16 bg-[#002f49] text-slate-300">
       <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
-        {/* company */}
+        {/* brand */}
         <div>
           <Image
             src={withBasePath("/logo-white.png")}
@@ -36,16 +36,16 @@ export function Footer() {
               href={`mailto:${site.email}`}
               className="flex items-start gap-2 transition hover:text-white"
             >
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#ff4d42]" /> {site.email}
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#ffb347]" /> {site.email}
             </a>
             <a
               href={`tel:${site.phones.office.replace(/[^+\d]/g, "")}`}
               className="flex items-start gap-2 transition hover:text-white"
             >
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#ff4d42]" /> {site.phones.office}
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#ffb347]" /> {site.phones.office}
             </a>
             <p className="flex items-start gap-2 text-slate-400">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#ff4d42]" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#ffb347]" />
               <span>
                 {site.address.line1},<br />
                 {site.address.city} – {site.address.pin}, {site.address.state}, {site.address.country}
@@ -54,17 +54,37 @@ export function Footer() {
           </div>
         </div>
 
-        {/* products */}
+        {/* products — the five pillars with their key sections */}
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider text-white">Products</h3>
-          <ul className="mt-4 space-y-2.5 text-sm">
-            {categories.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/products/${c.slug}`} className="text-slate-400 transition hover:text-[#ff4d42]">
-                  {c.name}
+          <ul className="mt-4 space-y-4 text-sm">
+            {megaMenu.map((group) => (
+              <li key={group.key}>
+                <Link
+                  href={group.path ? `/${group.path}/` : "/products"}
+                  className="font-semibold text-white transition hover:text-[#ffb347]"
+                >
+                  {group.name}
                 </Link>
+                <ul className="mt-1.5 space-y-1">
+                  {group.links.slice(0, 3).map(([label, path]) => (
+                    <li key={path}>
+                      <Link
+                        href={`/${path}/`}
+                        className="text-slate-400 transition hover:text-[#ffb347]"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
+            <li>
+              <Link href="/products" className="text-sm font-semibold text-[#ffb347] hover:underline">
+                All products →
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -74,7 +94,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-sm">
             {companyLinks.map((l) => (
               <li key={l.href + l.label}>
-                <Link href={l.href} className="text-slate-400 transition hover:text-[#ff4d42]">
+                <Link href={l.href} className="text-slate-400 transition hover:text-[#ffb347]">
                   {l.label}
                 </Link>
               </li>
@@ -92,7 +112,10 @@ export function Footer() {
           </p>
           <ul className="mt-3 flex flex-wrap gap-1.5">
             {branchOffices.map((b) => (
-              <li key={b} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300">
+              <li
+                key={b}
+                className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300"
+              >
                 {b}
               </li>
             ))}

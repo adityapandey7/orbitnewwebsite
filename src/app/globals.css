@@ -1,21 +1,33 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Orbit brand kit (from the live orbitindia.com design):
+   - navy #002F49  → primary: headings, dark surfaces, nav, footer
+   - orange #FF8D0A → accent: CTAs, highlights (deepened for text contrast)
+   - red #DA1515 → logo only, kept out of UI chrome
+   - taupe #C3BAAC → warm neutral band
+   Fonts: Poppins (headings) + Roboto (body), as on the live site.
+--------------------------------------------------------------------------- */
+
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto,
+  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, "Segoe UI", Roboto,
     "Noto Sans", "Noto Sans Devanagari", sans-serif;
 }
 
 :root {
-  --brand-950: #0d0d0d;
-  --brand-900: #161616;
-  --brand-800: #1c1c1c;
-  --brand-700: #262626;
-  --brand-600: #b01010;
-  --brand-500: #da1515;
-  --brand-100: #fdeaea;
-  --accent-600: #c47a00;
+  --brand-950: #001421;
+  --brand-900: #001c2c;
+  --brand-800: #002539;
+  --brand-700: #013a58;
+  --brand-500: #002f49;
+  --brand-200: #cfdce4;
+  --brand-100: #eaf1f5;
+  --accent-700: #a35a00;
+  --accent-600: #c4620a;
   --accent-500: #ff8d0a;
-  --accent-100: #fff3e0;
+  --accent-100: #fdeedd;
+  --sand-500: #c3baac;
+  --sand-100: #f6f3ee;
   color-scheme: light;
 }
 
@@ -26,12 +38,22 @@ html {
 body {
   background: #ffffff;
   color: #1e293b;
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-sans);
   min-height: 100dvh;
 }
 
+/* Headings ride the display font from the brand kit. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-poppins), var(--font-sans);
+}
+
 ::selection {
-  background: rgba(218, 21, 21, 0.25);
+  background: rgba(0, 47, 73, 0.22);
 }
 
 /* ----------------------------- shared atoms ----------------------------- */
@@ -71,31 +93,34 @@ body {
   opacity: 0.5;
   pointer-events: none;
 }
+/* Navy = primary surface button */
 .btn-primary {
-  background: linear-gradient(135deg, #002f49, #001c2c);
+  background: linear-gradient(135deg, #00395a, #001c2c);
   color: #ffffff;
   box-shadow: 0 6px 18px -8px rgba(0, 47, 73, 0.55);
 }
 .btn-primary:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.18);
 }
+/* Orange = the live site's CTA */
 .btn-accent {
-  background: linear-gradient(135deg, #e4231b, #b01010);
+  background: linear-gradient(135deg, #ffa426, #ff8d0a 55%, #ef7f00);
   color: #ffffff;
-  box-shadow: 0 6px 18px -8px rgba(218, 21, 21, 0.55);
+  box-shadow: 0 6px 18px -8px rgba(255, 141, 10, 0.65);
 }
 .btn-accent:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
 }
 .btn-outline {
   background: #ffffff;
   border: 1px solid #cbd5e1;
-  color: #161616;
+  color: #002f49;
 }
 .btn-outline:hover {
-  border-color: #da1515;
-  color: #da1515;
-  background: #fffafa;
+  border-color: #ff8d0a;
+  color: #a35a00;
+  background: #fffbf5;
 }
 
 .chip {
@@ -111,9 +136,9 @@ body {
   color: #475569;
 }
 .chip-accent {
-  border-color: #fecaca;
-  background: #fef2f2;
-  color: #b01010;
+  border-color: #f6dcc4;
+  background: #fff3e6;
+  color: #a35a00;
 }
 
 .input {
@@ -131,8 +156,8 @@ body {
   color: #94a3b8;
 }
 .input:focus {
-  border-color: #da1515;
-  box-shadow: 0 0 0 3px rgba(218, 21, 21, 0.15);
+  border-color: #ff8d0a;
+  box-shadow: 0 0 0 3px rgba(255, 141, 10, 0.2);
 }
 
 .label {
@@ -153,17 +178,19 @@ body {
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 .surface-hover:hover {
-  border-color: #fecaca;
-  box-shadow: 0 10px 30px -18px rgba(15, 23, 42, 0.35);
+  border-color: #f6dcc4;
+  box-shadow: 0 10px 30px -18px rgba(0, 47, 73, 0.4);
   transform: translateY(-2px);
 }
 
+/* Warm neutral band (taupe from the brand kit, very light) */
 .band {
-  background: #f3f4f4;
+  background: var(--sand-100);
 }
 
+/* Dark band = deep navy */
 .dark-band {
-  background: #1c1c1c;
+  background: linear-gradient(160deg, #002539, #001c2c);
 }
 
 .eyebrow {
@@ -172,7 +199,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #da1515;
+  color: var(--accent-600);
 }
 
 .no-scrollbar {
@@ -208,18 +235,18 @@ body {
 
 /* ---------------------- reference-style page sections ---------------------- */
 
-/* light gradient hero band (product / category / page headers) */
+/* light hero band (product / category / page headers) */
 .hero-light {
   background:
-    radial-gradient(700px 320px at 88% -20%, rgba(218, 21, 21, 0.07), transparent 60%),
+    radial-gradient(700px 320px at 88% -20%, rgba(255, 141, 10, 0.08), transparent 60%),
     radial-gradient(600px 300px at 0% 120%, rgba(0, 47, 73, 0.07), transparent 55%),
-    linear-gradient(180deg, #fbfbfb, #f4f4f4);
+    linear-gradient(180deg, #fdfcfa, #f6f3ee);
 }
 
 /* left-accent highlight callout used in product headers */
 .callout {
-  border-left: 4px solid #da1515;
-  background: #f7f7f7;
+  border-left: 4px solid #ff8d0a;
+  background: #fdf8f1;
   border-radius: 0 0.75rem 0.75rem 0;
   padding: 0.8rem 1rem;
 }
@@ -242,14 +269,14 @@ body {
   margin-top: 0.2rem;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #161616;
+  color: #002f49;
   overflow-wrap: anywhere;
 }
 
-/* charcoal statement / quote band with Orbit red glow */
+/* deep navy statement band with an orange glow */
 .quote-band {
   background:
-    radial-gradient(700px 320px at 85% 0%, rgba(218, 21, 21, 0.35), transparent 60%),
-    radial-gradient(600px 340px at 5% 100%, rgba(255, 141, 10, 0.14), transparent 55%),
-    #161616;
+    radial-gradient(700px 320px at 85% 0%, rgba(255, 141, 10, 0.28), transparent 60%),
+    radial-gradient(600px 340px at 5% 100%, rgba(1, 58, 88, 0.65), transparent 55%),
+    #001c2c;
 }

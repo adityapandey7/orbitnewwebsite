@@ -1,7 +1,6 @@
-# orbitIndia
+# Orbit Technologies website
 
-Orbit Technologies website, built with Next.js and exported as a static site for
-GitHub Pages.
+Built with Next.js and exported as a static site.
 
 ## Local development
 
@@ -10,11 +9,21 @@ npm ci
 npm run dev
 ```
 
-## Deployment
+## Build
 
-Pushing to `main` runs the GitHub Actions workflow in
-`.github/workflows/deploy.yml`. It builds the site for the
-`/orbitIndia/` project path and deploys the static output to GitHub Pages.
+```bash
+npm run build
+```
+
+The static site is generated in `out/`. Configure the hosting provider and any
+required base path for the destination repository or deployment environment.
+
+## GitHub Pages
+
+The workflow in `.github/workflows/deploy.yml` builds and deploys the site when
+changes are pushed to `main`. For the first deployment, set **Settings → Pages
+→ Build and deployment → Source** to **GitHub Actions**. The site will then be
+available at <https://adityapandey7.github.io/ornitnewwebsite/>.
 
 The quote form is currently a front-end demo and does not send or store
 submissions.

@@ -11,25 +11,25 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-import { categories, productsByCategory } from "@/data/products";
+import { pillars, megaMenu } from "@/data/categories";
 import { industries } from "@/data/industries";
 import { stats, whyChooseUs, partners, site } from "@/data/site";
 import { latestNews, events, latestProducts } from "@/data/news";
 import { CategoryIcon, IndustryIcon } from "@/components/icons";
 import { SectionHeading } from "@/components/section-heading";
 import { ProductGallery } from "@/components/product-gallery";
-import { InstrumentArt } from "@/components/instrument-art";
 import { Carousel } from "@/components/carousel";
 import { cn, withBasePath } from "@/lib/utils";
 
 /** Real industry photography (mirrors the reference site's feature grid). */
+/** Real industry photography; the two industries without a photo use an icon tile. */
 const industryPhotos: Record<string, string> = {
-  "fuels-energy": "/images/industries/fuels-energy.jpg",
-  "minerals-materials": "/images/industries/minerals-materials.jpg",
-  "cement-steel": "/images/industries/cement-steel.jpg",
-  "chemical-pharmaceutical": "/images/industries/chemical-pharmaceutical.jpg",
-  "research-education": "/images/industries/research-education.jpg",
+  "coal-coke-fuels": "/images/industries/fuels-energy.jpg",
+  cement: "/images/industries/cement-steel.jpg",
+  "minerals-mining": "/images/industries/minerals-materials.jpg",
+  "chemicals-petrochemicals": "/images/industries/chemical-pharmaceutical.jpg",
   "food-agriculture": "/images/industries/food-agriculture.jpg",
+  "research-education": "/images/industries/research-education.jpg",
 };
 
 const valueIcons = [Settings, ShieldCheck, Wrench, Users];
@@ -50,7 +50,7 @@ export default function HomePage() {
             <p className="rise-in eyebrow">
               Manufacturer &amp; Distributor · Hyderabad, India
             </p>
-            <h1 className="rise-in rise-in-1 mt-4 text-3xl font-black leading-tight tracking-tight text-[#161616] sm:text-5xl">
+            <h1 className="rise-in rise-in-1 mt-4 text-3xl font-black leading-tight tracking-tight text-[#002f49] sm:text-5xl">
               Your trusted technology partner for coal, mineral &amp; material
               analysis instruments
             </h1>
@@ -61,7 +61,7 @@ export default function HomePage() {
               <Link href="/products" className="btn btn-accent">
                 Explore products <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/contact#quote" className="btn btn-outline">
+              <Link href="/contact-us#quote" className="btn btn-outline">
                 Request a quote
               </Link>
             </div>
@@ -99,7 +99,7 @@ export default function HomePage() {
           <Carousel label="Latest events">
             {events.filter((e) => e.image).map((e) => {
               const slide = (
-                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[#fecaca]">
+                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-[#f6dcc4]">
                   <div className="relative aspect-[16/7] overflow-hidden bg-[#f5f5f5]">
                     <Image
                       src={withBasePath(e.image!)}
@@ -110,10 +110,10 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="p-4">
-                    <p className="flex items-center gap-2 text-xs font-semibold text-[#da1515]">
+                    <p className="flex items-center gap-2 text-xs font-semibold text-[#c4620a]">
                       <CalendarDays className="h-3.5 w-3.5" /> {e.date}
                     </p>
-                    <h3 className="mt-1.5 font-bold text-[#161616]">{e.show}</h3>
+                    <h3 className="mt-1.5 font-bold text-[#002f49]">{e.show}</h3>
                     <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
                       <MapPin className="h-3.5 w-3.5 shrink-0" /> {e.location}
                     </p>
@@ -155,7 +155,7 @@ export default function HomePage() {
                 "lg:border-r lg:last:border-r-0",
               )}
             >
-              <p className="text-3xl font-black tracking-tight text-[#da1515] sm:text-4xl">
+              <p className="text-3xl font-black tracking-tight text-[#c4620a] sm:text-4xl">
                 {s.value}
               </p>
               <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700 sm:text-xs">
@@ -184,10 +184,10 @@ export default function HomePage() {
               <Link
                 key={p.name}
                 href={p.href}
-                className="group w-[72%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-0.5 hover:border-[#fecaca] hover:shadow-[0_10px_30px_-18px_rgba(15,23,42,0.35)] sm:w-[44%] lg:w-[30%] xl:w-[23%]"
+                className="group w-[72%] shrink-0 snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-0.5 hover:border-[#f6dcc4] hover:shadow-[0_10px_30px_-18px_rgba(15,23,42,0.35)] sm:w-[44%] lg:w-[30%] xl:w-[23%]"
               >
                 <div className="relative aspect-[4/3] overflow-hidden border-b border-slate-100 bg-[#f5f5f5]">
-                  <span className="absolute left-3 top-3 z-10 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#da1515] ring-1 ring-slate-200">
+                  <span className="absolute left-3 top-3 z-10 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#c4620a] ring-1 ring-slate-200">
                     {p.badge}
                   </span>
                   <Image
@@ -199,13 +199,13 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[#da1515]">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#c4620a]">
                     {p.category}
                   </p>
-                  <h3 className="mt-1 text-sm font-bold leading-snug text-[#161616]">
+                  <h3 className="mt-1 text-sm font-bold leading-snug text-[#002f49]">
                     {p.name}
                   </h3>
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#da1515]">
+                  <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#c4620a]">
                     View details <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                   </span>
                 </div>
@@ -215,51 +215,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --------------------------- product categories --------------------------- */}
+      {/* ------------------------------ pillar ranges ------------------------------ */}
       <section className="dark-band py-14">
         <div className="container-x">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <SectionHeading
               dark
               eyebrow="What we supply"
-              title="Product categories"
-              subtitle="We supply, install and service high-quality scientific and specialised equipment across a wide variety of product categories."
+              title="Five product ranges, one supplier"
+              subtitle="We supply, install and service high-quality scientific and specialised equipment across five ranges — from calorimeters to certified reference materials."
             />
             <Link href="/products" className="btn btn-accent shrink-0">
               All products <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/products/${c.slug}`}
-                className="surface surface-hover group flex flex-col overflow-hidden"
-              >
-                <div className="border-b border-slate-100 bg-[#f5f5f5]">
-                  <InstrumentArt
-                    seed={c.slug}
-                    view={0}
-                    className="w-full transition duration-300 group-hover:scale-[1.02]"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fdeaea] text-[#da1515] transition group-hover:bg-[#da1515] group-hover:text-white">
-                      <CategoryIcon slug={c.slug} className="h-5 w-5" />
-                    </span>
-                    <h3 className="font-bold text-[#161616]">{c.name}</h3>
-                  </div>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-                    {c.blurb}
-                  </p>
-                  <span className="mt-4 flex items-center justify-between text-xs font-semibold text-slate-400">
-                    {productsByCategory(c.slug).length} featured products
-                    <ArrowRight className="h-4 w-4 text-[#da1515] transition group-hover:translate-x-0.5" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {pillars.map((p) => {
+              const group = megaMenu.find((g) => g.key === p.key);
+              const href = p.path ? `/${p.path}/` : "/milling-pulverising/";
+              return (
+                <Link
+                  key={p.key}
+                  href={href}
+                  className="surface surface-hover group flex flex-col p-5"
+                >
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fdeedd] text-[#c4620a] transition group-hover:bg-[#c4620a] group-hover:text-white">
+                    <CategoryIcon slug={p.path || "milling-pulverising"} className="h-5 w-5" />
                   </span>
-                </div>
-              </Link>
-            ))}
+                  <h3 className="mt-4 font-bold leading-snug text-[#002f49]">{p.name}</h3>
+                  <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-600">
+                    {group?.links.slice(0, 4).map(([label]) => (
+                      <li key={label} className="flex items-start gap-2">
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#c4620a]" />
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                  <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#c4620a]">
+                    Explore range
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -276,22 +274,26 @@ export default function HomePage() {
             {industries.map((ind) => (
               <div key={ind.slug} className="surface group overflow-hidden p-0">
                 <div className="relative aspect-[16/10] overflow-hidden border-b border-slate-100 bg-[#f5f5f5]">
-                  <Image
-                    src={withBasePath(
-                      industryPhotos[ind.slug] ?? "/images/inner-banner.jpg",
-                    )}
-                    alt={`${ind.name} industry applications`}
-                    fill
-                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 92vw"
-                    className="object-cover transition duration-300 group-hover:scale-[1.03]"
-                  />
+                  {industryPhotos[ind.slug] ? (
+                    <Image
+                      src={withBasePath(industryPhotos[ind.slug])}
+                      alt={`${ind.name} industry applications`}
+                      fill
+                      sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 92vw"
+                      className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#002f49] to-[#001c2c]">
+                      <IndustryIcon slug={ind.slug} className="h-16 w-16 text-[#ffb347]" />
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#fef2f2] text-[#da1515]">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#fff3e6] text-[#c4620a]">
                       <IndustryIcon slug={ind.slug} className="h-5 w-5" />
                     </span>
-                    <h3 className="font-bold text-[#161616]">{ind.name}</h3>
+                    <h3 className="font-bold text-[#002f49]">{ind.name}</h3>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-slate-600">
                     {ind.blurb}
@@ -324,7 +326,7 @@ export default function HomePage() {
               const Icon = valueIcons[i] ?? Settings;
               return (
                 <div key={w.title} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#da1515] text-white">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#c4620a] text-white">
                     <Icon className="h-5 w-5" />
                   </span>
                   <h3 className="mt-4 font-bold text-white">{w.title}</h3>
@@ -349,8 +351,8 @@ export default function HomePage() {
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {partners.map((p) => (
               <div key={p.name} className="surface p-5">
-                <p className="font-bold text-[#161616]">{p.name}</p>
-                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-[#da1515]">
+                <p className="font-bold text-[#002f49]">{p.name}</p>
+                <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-[#c4620a]">
                   {p.country}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
@@ -366,7 +368,7 @@ export default function HomePage() {
       <section className="container-x grid gap-8 py-14 lg:grid-cols-[1.2fr_1fr]">
         <div>
           <div className="mb-4 flex items-end justify-between gap-4">
-            <h2 className="text-xl font-extrabold tracking-tight text-[#161616] sm:text-2xl">
+            <h2 className="text-xl font-extrabold tracking-tight text-[#002f49] sm:text-2xl">
               Latest news
             </h2>
             <Link
@@ -379,7 +381,7 @@ export default function HomePage() {
           <ul className="space-y-3">
             {latestNews.slice(0, 4).map((n) => (
               <li key={n.title} className="surface flex items-start gap-4 p-4">
-                <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg bg-[#fdeaea] text-[#da1515]">
+                <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg bg-[#fdeedd] text-[#c4620a]">
                   <span className="text-[10px] font-bold uppercase leading-none">
                     {n.date.split(" ")[0]}
                   </span>
@@ -388,10 +390,10 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-[#da1515]">
+                  <p className="text-xs font-semibold text-[#c4620a]">
                     {n.category}
                   </p>
-                  <p className="mt-0.5 font-bold text-[#161616]">{n.title}</p>
+                  <p className="mt-0.5 font-bold text-[#002f49]">{n.title}</p>
                   <p className="mt-1 text-sm leading-relaxed text-slate-600">
                     {n.body}
                   </p>
@@ -420,7 +422,7 @@ export default function HomePage() {
                 className="h-16 w-auto shrink-0"
               />
               <div>
-                <h2 className="text-lg font-extrabold tracking-tight text-[#161616]">
+                <h2 className="text-lg font-extrabold tracking-tight text-[#002f49]">
                   Serving Indian industry for 35 years
                 </h2>
                 <p className="mt-1 text-sm leading-relaxed text-slate-600">
@@ -428,7 +430,7 @@ export default function HomePage() {
                   training and after-sales support — trusted by 7,000+ customers
                   across the country.
                 </p>
-                <Link href="/about" className="btn btn-outline mt-4">
+                <Link href="/about-us" className="btn btn-outline mt-4">
                   About Orbit <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -440,7 +442,7 @@ export default function HomePage() {
       {/* -------------------------------- quote band -------------------------------- */}
       <section className="quote-band relative overflow-hidden py-14 text-white">
         <div className="container-x relative text-center">
-          <Quote className="mx-auto h-8 w-8 text-[#ff4d42]" />
+          <Quote className="mx-auto h-8 w-8 text-[#ffb347]" />
           <p className="mx-auto mt-5 max-w-3xl text-2xl font-black tracking-tight sm:text-3xl">
             Need help selecting the right instrument?
           </p>
@@ -450,7 +452,7 @@ export default function HomePage() {
             India.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/contact#quote" className="btn btn-accent">
+            <Link href="/contact-us#quote" className="btn btn-accent">
               Request a quote <ArrowRight className="h-4 w-4" />
             </Link>
             <a

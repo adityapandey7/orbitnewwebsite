@@ -24,15 +24,15 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
               <span
                 className={cn(
                   "text-sm font-bold sm:text-base",
-                  isOpen ? "text-[#da1515]" : "text-[#161616]",
+                  isOpen ? "text-[#c4620a]" : "text-[#002f49]",
                 )}
               >
                 {item.q}
               </span>
               {isOpen ? (
-                <Minus className="h-4 w-4 shrink-0 text-[#da1515]" />
+                <Minus className="h-4 w-4 shrink-0 text-[#c4620a]" />
               ) : (
-                <Plus className="h-4 w-4 shrink-0 text-[#da1515]" />
+                <Plus className="h-4 w-4 shrink-0 text-[#c4620a]" />
               )}
             </button>
             {isOpen && (
