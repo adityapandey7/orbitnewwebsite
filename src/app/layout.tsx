@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { withBasePath } from "@/lib/utils";
 
-const poppins = Poppins({
+const poppins = localFont({
+  src: [
+    { path: "./fonts/poppins-500-latin.woff2", weight: "500" },
+    { path: "./fonts/poppins-600-latin.woff2", weight: "600" },
+    { path: "./fonts/poppins-700-latin.woff2", weight: "700" },
+    { path: "./fonts/poppins-800-latin.woff2", weight: "800" },
+  ],
   variable: "--font-poppins",
-  weight: ["500", "600", "700", "800"],
-  subsets: ["latin"],
   display: "swap",
 });
 
-const roboto = Roboto({
+const roboto = localFont({
+  src: "./fonts/roboto-latin.woff2",
   variable: "--font-roboto",
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
+  weight: "100 900",
   display: "swap",
 });
 
