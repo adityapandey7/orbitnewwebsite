@@ -1,5 +1,3 @@
-import { useId } from "react";
-
 export type ArtView = 0 | 1 | 2;
 
 /* Deterministic pseudo-random helpers so every product always renders
@@ -51,8 +49,8 @@ export function InstrumentArt({
   className?: string;
   label?: string;
 }) {
-  const rawId = useId();
-  const uid = `art${rawId.replace(/[^a-zA-Z0-9]/g, "")}`;
+  const cleanSeed = (seed || "inst").replace(/[^a-zA-Z0-9]/g, "");
+  const uid = `art-${cleanSeed}-${view}`;
   const s = hashSeed(seed + ":" + view);
 
   const screenW = 92 + Math.floor(rand(s, 1) * 30);

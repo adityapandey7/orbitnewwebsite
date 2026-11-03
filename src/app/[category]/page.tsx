@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { CategoryView } from "@/components/category-view";
 import { categories, getCategoryByPath } from "@/data/categories";
 
+import { getCategorySeoData } from "@/data/category-seo";
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -21,7 +23,16 @@ export async function generateMetadata({
   const { category } = await params;
   const cat = getCategoryByPath(category);
   if (!cat) return {};
-  return { title: cat.name, description: cat.blurb };
+  const seo = getCategorySeoData(cat);
+  return {
+    title: seo.metaTitle,
+    description: seo.metaDescription,
+    openGraph: {
+      title: seo.metaTitle,
+      description: seo.metaDescription,
+      type: "website",
+    },
+  };
 }
 
 export default async function CategoryPage({

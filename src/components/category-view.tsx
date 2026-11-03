@@ -1,49 +1,81 @@
 import Link from "next/link";
-import { ArrowRight, Layers, Quote } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Quote } from "lucide-react";
 import { Breadcrumb, type Crumb } from "@/components/breadcrumb";
 import { PageHero } from "@/components/page-hero";
 import { ProductCard } from "@/components/product-card";
-import { FaqAccordion } from "@/components/faq-accordion";
-import { SectionHeading } from "@/components/section-heading";
+import { CategorySeoSection } from "@/components/category-seo-section";
 import {
   ancestorsOf,
   categories,
-  childrenOf,
   getCategoryByPath,
   type Category,
 } from "@/data/categories";
+import { getCategoryHeroIntro } from "@/data/category-seo";
 import { products, productsByCategory } from "@/data/products";
+import { CATEGORY_IMAGE_MAP } from "@/data/product-media";
 import { site } from "@/data/site";
 
-const KIND_EYEBROW: Record<Category["kind"], string> = {
-  pillar: "Product range",
-  section: "Product category",
-  subsection: "Sub-category",
-};
+function getSubcategories(category: Category): Category[] {
+  // Direct children registered with this category as parent
+  const direct = categories.filter((c) => c.parent === category.path);
+  if (direct.length > 0) return direct;
 
-function childrenFor(category: Category): Category[] {
-  if (category.kind === "pillar") {
-    // Sections are parent: null in the registry — group them by pillar.
+  if (category.path === "analytical-instruments") {
+    const order = [
+      "calorimeter",
+      "ash-fusion-analyzers",
+      "tga-proximate-analyzers",
+      "elemental-analyzers",
+      "coal-and-coke-testing-instruments",
+      "other-instruments",
+    ];
+    return order
+      .map((p) => getCategoryByPath(p))
+      .filter((c): c is Category => c !== null);
+  }
+
+  if (category.path === "crms-srms-laboratory-accessories") {
+    const order = [
+      "laboratory-accessories",
+      "certified-and-standard-reference-materials",
+    ];
+    return order
+      .map((p) => getCategoryByPath(p))
+      .filter((c): c is Category => c !== null);
+  }
+
+  if (category.path === "furnace-heating-systems") {
     return categories.filter(
       (c) =>
-        c.kind === "section" &&
-        c.pillar === category.pillar &&
-        c.path !== category.path,
+        c.parent === null &&
+        c.pillar === "furnaces" &&
+        c.path !== "furnace-heating-systems",
     );
   }
-  return childrenOf(category.path);
+
+  return [];
 }
 
-function productsFor(category: Category) {
-  if (category.kind === "pillar") {
-    return products.filter(
-      (p) => getCategoryByPath(p.category)?.pillar === category.pillar,
+function getCategoryProducts(category: Category) {
+  if (category.path === "denatec") {
+    return products.filter((p) => p.category === "denatec");
+  }
+  if (category.path === "analytical-balances") {
+    return products.filter((p) =>
+      [
+        "premium-level-micro-semi-micro",
+        "micro-analytical",
+        "semi-micro-analytical",
+        "advanced-level-analytical",
+        "standard-level-analytical",
+      ].includes(p.category),
     );
   }
   return productsByCategory(category.path, { deep: true });
 }
 
-/** Breadcrumb: Home > ancestors > self (ancestorsOf includes self at depth 1). */
+/** Breadcrumb: Home > ancestors > self */
 function crumbsFor(category: Category): Crumb[] {
   const ancestors = ancestorsOf(category.path)
     .filter((a) => a.path !== category.path)
@@ -52,149 +84,151 @@ function crumbsFor(category: Category): Crumb[] {
 }
 
 export function CategoryView({ category }: { category: Category }) {
-  const children = childrenFor(category);
-  const items = productsFor(category);
-  const guide = category.guide.filter((p) => p.trim() !== category.blurb.trim());
+  const children = getSubcategories(category);
+  const allCategoryProducts = getCategoryProducts(category);
+  const heroIntro = getCategoryHeroIntro(category);
+  const hasChildren = children.length > 0;
 
   return (
-    <div>
+    <div className="bg-white">
+      {/* 1. HERO SECTION: Clean breadcrumb & clear title with concise intro */}
       <Breadcrumb items={crumbsFor(category)} />
       <PageHero
-        eyebrow={KIND_EYEBROW[category.kind]}
         title={category.name}
-        subtitle={category.blurb}
+        subtitle={heroIntro}
       />
 
-      {/* sub-categories / sections */}
-      {children.length > 0 && (
-        <section className="container-x mt-10">
-          <SectionHeading
-            eyebrow={category.kind === "pillar" ? "Ranges within this line" : "Sub-categories"}
-            title={
-              category.kind === "pillar"
-                ? `Browse ${category.name}`
-                : `More in ${category.name}`
-            }
-          />
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {children.map((c) => {
-              const count = productsFor(c).length;
-              return (
-                <Link
-                  key={c.path}
-                  href={`/${c.path}/`}
-                  className="surface surface-hover group flex flex-col p-5"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-bold leading-snug text-[#002f49] group-hover:text-[#c4620a]">
-                      {c.name}
-                    </h3>
-                    <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#c4620a] transition group-hover:translate-x-0.5" />
-                  </div>
-                  <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-slate-600">
-                    {c.blurb}
-                  </p>
-                  <span className="mt-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    <Layers className="h-3.5 w-3.5" />
-                    {count} {count === 1 ? "product" : "products"}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* products */}
-      <section className="container-x mt-12 pb-4">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading
-            eyebrow={`${items.length} ${items.length === 1 ? "product" : "products"}`}
-            title={
-              children.length > 0
-                ? `Featured in ${category.name}`
-                : `${category.name} products`
-            }
-            subtitle="Supply, installation, training and after-sales service included across India."
-          />
-          <Link href="/contact-us#quote" className="btn btn-outline shrink-0">
-            Get a quote <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        {items.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {items.map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
-          </div>
-        ) : (
-          <div className="surface flex flex-col items-start gap-3 p-8">
-            <p className="font-bold text-[#002f49]">
-              Products for {category.name} are being curated.
-            </p>
-            <p className="text-sm text-slate-600">
-              Tell us what you need and our engineers will respond with the right
-              configuration and pricing.
-            </p>
-            <Link href="/contact-us#quote" className="btn btn-accent">
-              Request a quote <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        )}
-      </section>
-
-      {/* editorial guide */}
-      {guide.length > 0 && (
-        <section className="band border-y border-slate-200 py-14">
-          <div className="container-x max-w-4xl">
-            <SectionHeading
-              eyebrow="Buyer's guide"
-              title={`About ${category.name}`}
-            />
-            <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-600">
-              {guide.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+      {/* 2. MAIN CONTENT AREA: Clean, visual presentation */}
+      <div className="container-x mt-8 space-y-12">
+        {hasChildren ? (
+          /* Subcategory Grid with Authentic Photography */
+          <section aria-label={`Subcategories in ${category.name}`}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-[#002f49]">
+                Browse Categories ({children.length})
+              </h2>
+              <span className="text-xs text-slate-500 font-medium">
+                Certified Laboratory Instrumentation
+              </span>
             </div>
-          </div>
-        </section>
-      )}
 
-      {/* FAQ */}
-      {category.faq.length > 0 && (
-        <section className="container-x py-14">
-          <SectionHeading
-            align="center"
-            eyebrow="FAQ"
-            title={`Common questions about ${category.name}`}
-          />
-          <div className="mt-8">
-            <FaqAccordion items={category.faq} />
-          </div>
-        </section>
-      )}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {children.map((c) => {
+                const count = productsByCategory(c.path, { deep: true }).length;
+                const subIntro = getCategoryHeroIntro(c);
+                const imgSrc = CATEGORY_IMAGE_MAP[c.path] || "/images/orbit/Bomb-PNG.png";
 
-      {/* quote band */}
-      <section className="quote-band relative overflow-hidden py-14 text-white">
+                return (
+                  <Link
+                    key={c.path}
+                    href={`/${c.path}/`}
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs hover:-translate-y-1 hover:border-[#c4620a]/60 hover:shadow-lg transition-all duration-300"
+                  >
+                    {/* Visual Category Photo Thumbnail */}
+                    <div className="relative aspect-16/10 w-full overflow-hidden bg-[#f8fafc] p-4 flex items-center justify-center border-b border-slate-100">
+                      <Image
+                        src={imgSrc}
+                        alt={c.name}
+                        fill
+                        className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      <span className="absolute bottom-2.5 left-2.5 rounded-full bg-white/95 px-2.5 py-0.5 text-[10px] font-bold text-[#002f49] shadow-xs ring-1 ring-slate-200">
+                        {count} {count === 1 ? "Model" : "Models"} Available
+                      </span>
+                    </div>
+
+                    <div className="flex flex-1 flex-col justify-between p-5">
+                      <div>
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-bold text-base leading-snug text-[#002f49] group-hover:text-[#c4620a] transition-colors">
+                            {c.name}
+                          </h3>
+                          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-50 text-[#c4620a] group-hover:bg-[#c4620a] group-hover:text-white transition-colors">
+                            <ArrowRight className="h-4 w-4" />
+                          </div>
+                        </div>
+                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-600">
+                          {subIntro}
+                        </p>
+                      </div>
+
+                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span className="font-bold text-[#c4620a] group-hover:underline inline-flex items-center gap-1">
+                          Explore Models &rarr;
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ) : (
+          /* Products Grid (when no subcategories are present) */
+          <section aria-label={`Products in ${category.name}`}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-[#002f49]">
+                Available Instruments ({allCategoryProducts.length})
+              </h2>
+              <span className="text-xs text-slate-500 font-medium">
+                Parr &middot; Orlab &middot; Sylab &middot; Elite
+              </span>
+            </div>
+
+            {allCategoryProducts.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {allCategoryProducts.map((p) => (
+                  <ProductCard key={p.slug} product={p} />
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center sm:p-12 shadow-xs">
+                <h3 className="text-lg font-bold text-[#002f49]">
+                  Specialized Configurations Available for {category.name}
+                </h3>
+                <p className="mt-2 text-sm text-slate-600 max-w-md mx-auto">
+                  Share your test method, sample matrix, or temperature/pressure parameters.
+                  Our application engineers will recommend the ideal certified configuration.
+                </p>
+                <Link href="/contact-us#quote" className="btn btn-accent mt-5">
+                  Consult Application Engineering <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            )}
+          </section>
+        )}
+      </div>
+
+      {/* 3. Clean Technical Guide & Standards */}
+      <div className="container-x mt-12">
+        <CategorySeoSection
+          category={category}
+          products={allCategoryProducts}
+        />
+      </div>
+
+      {/* 4. Quote and Support Banner */}
+      <section className="quote-band relative overflow-hidden py-14 text-white mt-12">
         <div className="container-x relative text-center">
           <Quote className="mx-auto h-8 w-8 text-[#ffb347]" />
           <p className="mx-auto mt-5 max-w-3xl text-2xl font-black tracking-tight sm:text-3xl">
-            Need help selecting the right instrument?
+            Need Expert Selection Assistance for Your Laboratory?
           </p>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
-            Our engineers help you right from product selection and purchase
-            through installation, training and after-sales support — anywhere in India.
+            Orbit Technologies supports laboratories across India from instrument
+            selection and purchase through installation, commissioning, operator training,
+            and preventative maintenance.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link href="/contact-us#quote" className="btn btn-accent">
-              Request a quote <ArrowRight className="h-4 w-4" />
+              Request Configuration &amp; Quote <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href={`tel:${site.phones.sales1.replace(/[^+\d]/g, "")}`}
               className="btn border border-white/25 bg-white/10 text-white hover:bg-white/20"
             >
-              Call sales: {site.phones.sales1}
+              Call Technical Sales: {site.phones.sales1}
             </a>
           </div>
         </div>
