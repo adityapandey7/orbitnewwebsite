@@ -33,6 +33,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /orbitnewwebsite
+          NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID || '' }}
       - name: Add Pages marker
         run: touch ./out/.nojekyll
       - name: Upload Pages artifact

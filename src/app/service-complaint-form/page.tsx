@@ -12,6 +12,7 @@ import {
 import { Breadcrumb } from "@/components/breadcrumb";
 import { PageHero } from "@/components/page-hero";
 import { branchOffices } from "@/data/site";
+import { trackGenerateLead } from "@/lib/analytics";
 
 export default function ServiceComplaintFormPage() {
   const [formData, setFormData] = useState({
@@ -60,6 +61,13 @@ export default function ServiceComplaintFormPage() {
         ticketNumber: data.ticketNumber,
         whatsappUrl: data.whatsappUrl,
         message: data.message,
+      });
+      trackGenerateLead({
+        formId: "service_complaint_form",
+        formName: "Service Complaint Form",
+        productOrApplication: formData.instrumentModel,
+        company: formData.company,
+        city: formData.city,
       });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "An unexpected error occurred.";

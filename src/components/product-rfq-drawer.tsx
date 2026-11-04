@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { site } from "@/data/site";
 import type { Product } from "@/data/products";
+import { trackGenerateLead } from "@/lib/analytics";
 
 interface ProductRfqDrawerProps {
   product: Product;
@@ -95,6 +96,12 @@ export function ProductRfqDrawer({
       setRfqNumber(generatedId);
       setIsSubmitted(true);
     } finally {
+      trackGenerateLead({
+        formId: "rfq_drawer",
+        formName: "Product RFQ Drawer Form",
+        productOrApplication: product.name,
+        company: formData.organization,
+      });
       setIsSubmitting(false);
     }
   };

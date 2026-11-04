@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, FlaskConical, Send } from "lucide-react";
 import { categories, pillars } from "@/data/categories";
+import { trackGenerateLead } from "@/lib/analytics";
 
 export function QuoteForm({
   context,
@@ -45,6 +46,11 @@ export function QuoteForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        trackGenerateLead({
+          formId: "quote_form",
+          formName: "Quote / General Contact Form",
+          productOrApplication: context || product || "General Enquiry",
+        });
         setSent(true);
       }}
       className="surface p-6 sm:p-8"

@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { withBasePath } from "@/lib/utils";
+import { trackContactClick } from "@/lib/analytics";
 
 const quickLinks = [
   { href: "/about-us", label: "About Orbit" },
@@ -77,13 +80,33 @@ export function Footer() {
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-[#ffb347]" />
-                <a href="tel:+914067216354" className="hover:text-white transition">
+                <a
+                  href="tel:+914067216354"
+                  onClick={() =>
+                    trackContactClick({
+                      type: "phone",
+                      value: "+91 40 6721 6354",
+                      context: "footer_contact",
+                    })
+                  }
+                  className="hover:text-white transition"
+                >
                   +91 40 6721 6354
                 </a>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-[#ffb347]" />
-                <a href="mailto:orbit@orbitindia.com" className="hover:text-white transition">
+                <a
+                  href="mailto:orbit@orbitindia.com"
+                  onClick={() =>
+                    trackContactClick({
+                      type: "email",
+                      value: "orbit@orbitindia.com",
+                      context: "footer_contact",
+                    })
+                  }
+                  className="hover:text-white transition"
+                >
                   orbit@orbitindia.com
                 </a>
               </p>

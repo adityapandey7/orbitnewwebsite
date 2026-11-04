@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback, Suspense } from "react";
+import { useMemo, useState, useCallback, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -13,6 +13,10 @@ import {
 } from "lucide-react";
 import { products, type Product } from "@/data/products";
 import { ProductCard } from "@/components/product-card";
+import {
+  trackViewItemList,
+  trackCatalogFilter,
+} from "@/lib/analytics";
 
 /* Filter Options */
 interface FilterOption {
@@ -589,6 +593,7 @@ function ProductCatalogInner() {
     (val: string) => {
       setSelectedCategory(val);
       syncUrl(query, val, selectedIndustry, selectedOperation, selectedBrand);
+      trackCatalogFilter("category", val);
     },
     [syncUrl, query, selectedIndustry, selectedOperation, selectedBrand]
   );
@@ -597,6 +602,7 @@ function ProductCatalogInner() {
     (val: string) => {
       setSelectedIndustry(val);
       syncUrl(query, selectedCategory, val, selectedOperation, selectedBrand);
+      trackCatalogFilter("industry", val);
     },
     [syncUrl, query, selectedCategory, selectedOperation, selectedBrand]
   );
@@ -605,6 +611,7 @@ function ProductCatalogInner() {
     (val: string) => {
       setSelectedOperation(val);
       syncUrl(query, selectedCategory, selectedIndustry, val, selectedBrand);
+      trackCatalogFilter("operation", val);
     },
     [syncUrl, query, selectedCategory, selectedIndustry, selectedBrand]
   );
@@ -613,6 +620,7 @@ function ProductCatalogInner() {
     (val: string) => {
       setSelectedBrand(val);
       syncUrl(query, selectedCategory, selectedIndustry, selectedOperation, val);
+      trackCatalogFilter("brand", val);
     },
     [syncUrl, query, selectedCategory, selectedIndustry, selectedOperation]
   );
@@ -645,6 +653,18 @@ function ProductCatalogInner() {
       return true;
     });
   }, [selectedCategory, selectedIndustry, selectedOperation, selectedBrand, query]);
+
+  // Track view_item_list when catalog results are loaded or filtered
+  useEffect(() => {
+    trackViewItemList({
+      itemListId: selectedCategory !== "all" ? selectedCategory : "product_catalog",
+      itemListName:
+        selectedCategory !== "all"
+          ? `Product Catalog - ${selectedCategory}`
+          : "All Products Catalog",
+      products: filteredProducts,
+    });
+  }, [selectedCategory, selectedIndustry, selectedOperation, selectedBrand, query, filteredProducts]);
 
   // Compute category distribution for the filtered results so users can see matching categories
   const categoryCounts = useMemo(() => {
@@ -977,8 +997,18 @@ function ProductCatalogInner() {
       {/* 5. 4-Column Product Grid (Anton Paar Style) */}
       {filteredProducts.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredProducts.map((p) => (
-            <ProductCard key={p.slug} product={p} />
+          {filteredProducts.map((p, idx) => (
+            <ProductCard
+              key={p.slug}
+              product={p}
+              itemListId={selectedCategory !== "all" ? selectedCategory : "product_catalog"}
+              itemListName={
+                selectedCategory !== "all"
+                  ? `Product Catalog - ${selectedCategory}`
+                  : "All Products Catalog"
+              }
+              index={idx}
+            />
           ))}
         </div>
       ) : (

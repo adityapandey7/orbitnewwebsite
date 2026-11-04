@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2, Mail, Phone, MapPin, Shield } from "lucide-react";
+import { trackGenerateLead } from "@/lib/analytics";
 
 export function HomeEnquiryForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -22,6 +23,13 @@ export function HomeEnquiryForm() {
       alert("Please accept the consent terms to proceed.");
       return;
     }
+    trackGenerateLead({
+      formId: "home_enquiry_form",
+      formName: "Home Page Enquiry Form",
+      productOrApplication: formData.productOrApplication,
+      company: formData.company,
+      city: formData.city,
+    });
     setSubmitted(true);
   };
 

@@ -33,6 +33,11 @@ import {
 } from "@/data/product-media";
 import type { Category } from "@/data/categories";
 import type { Product } from "@/data/products";
+import {
+  trackViewItem,
+  trackFileDownload,
+  trackGenerateLead,
+} from "@/lib/analytics";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -80,6 +85,11 @@ export function ProductDetailView({
     return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
+  // GA4 view_item tracking
+  useEffect(() => {
+    trackViewItem(product, category?.name);
+  }, [product, category?.name]);
+
   // In-page Quote Form State
   const [inPageSubmitting, setInPageSubmitting] = useState(false);
   const [inPageSubmitted, setInPageSubmitted] = useState(false);
@@ -121,6 +131,12 @@ export function ProductDetailView({
       setInPageQuoteId(quoteId);
       setInPageSubmitted(true);
     } finally {
+      trackGenerateLead({
+        formId: "product_detail_rfq",
+        formName: "Product Detail In-page RFQ",
+        productOrApplication: product.name,
+        company: inPageForm.company,
+      });
       setInPageSubmitting(false);
     }
   };
@@ -795,7 +811,14 @@ export function ProductDetailView({
                           </span>
                           <button
                             type="button"
-                            onClick={() => setIsRfqOpen(true)}
+                            onClick={() => {
+                              trackFileDownload({
+                                fileName: b.title,
+                                fileUrl: `${b.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.pdf`,
+                                productName: product.name,
+                              });
+                              setIsRfqOpen(true);
+                            }}
                             className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-[#c4620a] hover:underline"
                           >
                             <FileDown className="h-4 w-4" /> Download PDF
@@ -1046,8 +1069,14 @@ export function ProductDetailView({
               </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {relatedProducts.map((p) => (
-                <ProductCard key={p.slug} product={p} />
+              {relatedProducts.map((p, idx) => (
+                <ProductCard
+                  key={p.slug}
+                  product={p}
+                  itemListId="related_products"
+                  itemListName={`Related to ${product.name}`}
+                  index={idx}
+                />
               ))}
             </div>
           </div>

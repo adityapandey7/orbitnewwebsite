@@ -5,6 +5,7 @@ import { Breadcrumb, type Crumb } from "@/components/breadcrumb";
 import { PageHero } from "@/components/page-hero";
 import { ProductCard } from "@/components/product-card";
 import { CategorySeoSection } from "@/components/category-seo-section";
+import { CategoryTracker } from "@/components/category-tracker";
 import {
   ancestorsOf,
   categories,
@@ -91,6 +92,7 @@ export function CategoryView({ category }: { category: Category }) {
 
   return (
     <div className="bg-white">
+      <CategoryTracker category={category} products={allCategoryProducts} />
       {/* 1. HERO SECTION: Clean breadcrumb & clear title with concise intro */}
       <Breadcrumb items={crumbsFor(category)} />
       <PageHero
@@ -178,8 +180,14 @@ export function CategoryView({ category }: { category: Category }) {
 
             {allCategoryProducts.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {allCategoryProducts.map((p) => (
-                  <ProductCard key={p.slug} product={p} />
+                {allCategoryProducts.map((p, idx) => (
+                  <ProductCard
+                    key={p.slug}
+                    product={p}
+                    itemListId={category.path}
+                    itemListName={category.name}
+                    index={idx}
+                  />
                 ))}
               </div>
             ) : (

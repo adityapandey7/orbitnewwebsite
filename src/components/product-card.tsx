@@ -1,17 +1,42 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Product } from "@/data/products";
 import { PRODUCT_IMAGE_MAP } from "@/data/product-media";
 import { InstrumentArt } from "@/components/instrument-art";
+import { trackSelectItem } from "@/lib/analytics";
 
-export function ProductCard({ product }: { product: Product }) {
+interface ProductCardProps {
+  product: Product;
+  itemListId?: string;
+  itemListName?: string;
+  index?: number;
+}
+
+export function ProductCard({
+  product,
+  itemListId,
+  itemListName,
+  index,
+}: ProductCardProps) {
   const images = PRODUCT_IMAGE_MAP[product.slug] || [];
   const mappedImage = images.length > 0 ? images[0] : null;
+
+  const handleClick = () => {
+    trackSelectItem({
+      itemListId,
+      itemListName,
+      product,
+      index,
+    });
+  };
 
   return (
     <Link
       href={`/products/${product.slug}/`}
+      onClick={handleClick}
       className="group flex flex-col rounded-xl border border-slate-200/90 bg-white shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md overflow-hidden"
     >
       <div className="relative aspect-4/3 w-full border-b border-slate-100 bg-[#f9fafb] p-3 flex items-center justify-center overflow-hidden">

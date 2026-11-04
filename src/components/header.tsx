@@ -7,6 +7,7 @@ import { Menu, X, Phone, Mail, ArrowRight, ChevronDown } from "lucide-react";
 import { site } from "@/data/site";
 import { authenticMegaMenu } from "@/data/categories";
 import { cn, withBasePath } from "@/lib/utils";
+import { trackContactClick } from "@/lib/analytics";
 
 const aboutLinks = [
   {
@@ -137,11 +138,28 @@ export function Header() {
           <div className="flex items-center gap-5">
             <a
               href={`tel:${site.phones.office.replace(/[^+\d]/g, "")}`}
+              onClick={() =>
+                trackContactClick({
+                  type: "phone",
+                  value: site.phones.office,
+                  context: "header_top_bar",
+                })
+              }
               className="flex items-center gap-1.5 transition hover:text-white"
             >
               <Phone className="h-3.5 w-3.5 text-[#ffb347]" /> {site.phones.office}
             </a>
-            <a href={`mailto:${site.email}`} className="flex items-center gap-1.5 transition hover:text-white">
+            <a
+              href={`mailto:${site.email}`}
+              onClick={() =>
+                trackContactClick({
+                  type: "email",
+                  value: site.email,
+                  context: "header_top_bar",
+                })
+              }
+              className="flex items-center gap-1.5 transition hover:text-white"
+            >
               <Mail className="h-3.5 w-3.5 text-[#ffb347]" /> {site.email}
             </a>
           </div>
