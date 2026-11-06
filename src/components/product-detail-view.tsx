@@ -813,20 +813,6 @@ export function ProductDetailView({
                       </div>
                     ))}
                   </div>
-
-                  <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center">
-                    <h4 className="text-sm font-semibold text-[#0056B3]">Need Custom Architecture or CAD Drawings?</h4>
-                    <p className="mt-1 text-xs text-slate-500 max-w-md mx-auto">
-                      Contact our applications engineering division for 2D/3D facility layout drawings, utility schematics, and ventilation calculations.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setIsRfqOpen(true)}
-                      className="cursor-pointer mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#0056B3] hover:text-[#d00000]"
-                    >
-                      Contact Applications Engineering &rarr;
-                    </button>
-                  </div>
                 </div>
               )}
             </div>
