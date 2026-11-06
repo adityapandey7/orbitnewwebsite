@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2, Phone, Mail, Building, User, Calendar, MessageSquare } from "lucide-react";
+import { trackGenerateLead } from "@/lib/analytics";
 
 interface NewsLeadFormProps {
   itemTitle: string;
@@ -30,6 +31,12 @@ export function NewsLeadForm({ itemTitle, itemType, eventVenue }: NewsLeadFormPr
       const generatedRef = `ORB-INQ-${Math.floor(100000 + Math.random() * 900000)}`;
       setRefId(generatedRef);
       setSubmitted(true);
+      trackGenerateLead({
+        formId: itemType === "event" ? "event_stall_meeting" : "news_inquiry",
+        formName: itemType === "event" ? "Event Stall Meeting Request" : "News Technical Inquiry",
+        productOrApplication: itemTitle,
+        company: organization,
+      });
     } catch {
       // Handle error gracefully
     } finally {
