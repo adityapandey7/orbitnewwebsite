@@ -271,7 +271,7 @@ export function ProductDetailView({
     { key: "advantages", label: "Key Advantages", icon: <Sparkles className="h-4 w-4" /> },
     {
       key: "brochures",
-      label: "Brochures & Resources",
+      label: "Downloads",
       icon: <FileDown className="h-4 w-4" />,
       count: DEFAULT_BROCHURES.length,
     },
