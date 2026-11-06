@@ -259,13 +259,12 @@ export function ProductDetailView({
     ? product.description.replace(/\[…\]/g, "").trim()
     : product.tagline;
 
-  const tabs: { key: TabKey; label: string; icon: React.ReactNode; count?: number }[] = [
+  const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
     { key: "description", label: "Description", icon: <BookOpen className="h-4 w-4" /> },
     {
       key: "specifications",
       label: "Specifications",
       icon: <Sliders className="h-4 w-4" />,
-      count: rawSpecs.length,
     },
     { key: "applications", label: "Applications & Standards", icon: <Layers className="h-4 w-4" /> },
     { key: "advantages", label: "Key Advantages", icon: <Sparkles className="h-4 w-4" /> },
@@ -273,7 +272,6 @@ export function ProductDetailView({
       key: "brochures",
       label: "Downloads",
       icon: <FileDown className="h-4 w-4" />,
-      count: DEFAULT_BROCHURES.length,
     },
   ];
 
@@ -430,17 +428,6 @@ export function ProductDetailView({
                         {tab.icon}
                       </span>
                       <span>{tab.label}</span>
-                      {tab.count !== undefined && (
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                            isActive
-                              ? "bg-[#feeceb] text-[#d00000]"
-                              : "bg-slate-200/80 text-slate-600"
-                          }`}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
                     </button>
                   );
                 })}
