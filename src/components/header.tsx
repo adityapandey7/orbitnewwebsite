@@ -122,7 +122,7 @@ export function Header() {
               alt="Orbit Technologies"
               width={240}
               height={90}
-              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+              className="h-12 sm:h-14 md:h-14 lg:h-16 w-auto object-contain"
               priority
             />
           </Link>
@@ -179,22 +179,6 @@ export function Header() {
               Request a Quote <ArrowRight className="h-4 w-4" />
             </Link>
 
-            {/* Quick Call Button on Mobile */}
-            <a
-              href={`tel:${site.phones.office.replace(/[^+\d]/g, "")}`}
-              aria-label="Call Orbit Technologies"
-              onClick={() =>
-                trackContactClick({
-                  type: "phone",
-                  value: site.phones.office,
-                  context: "mobile_header",
-                })
-              }
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#ebf3fc] text-[#0056B3] hover:bg-[#feeceb] hover:text-[#d00000] md:hidden transition-colors"
-            >
-              <Phone className="h-4 w-4" />
-            </a>
-
             {/* Mobile Hamburger Menu Button */}
             <button
               type="button"
@@ -241,28 +225,6 @@ export function Header() {
 
               {mobileProducts && (
                 <div className="px-3 pb-3 pt-1 space-y-2 border-t border-slate-100 bg-white">
-                  {/* Standout Instrument Finder Link (Mobile) */}
-                  <Link
-                    href="/instrument-finder/"
-                    onClick={() => setOpen(false)}
-                    className="group flex items-center justify-between rounded-md border border-slate-200 bg-[#f8fafc] p-2.5 shadow-xs transition hover:border-[#0056B3]"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#ebf3fc] text-[#0056B3]">
-                        <SlidersHorizontal className="h-3.5 w-3.5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-[#0056B3]">
-                          Instrument Finder
-                        </p>
-                        <p className="text-[10px] text-slate-500 leading-tight">
-                          Filter by test method or standard
-                        </p>
-                      </div>
-                    </div>
-                    <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-[#0056B3]" />
-                  </Link>
-
                   {/* Divisions List */}
                   <div className="space-y-1.5 pt-1">
                     {authenticMegaMenu.map((tab) => {
@@ -377,45 +339,26 @@ export function Header() {
               </Link>
             ))}
 
-            {/* Request a Quote Button - Full Width */}
-            <div className="pt-2">
+            {/* Instrument Finder Link (Mobile) */}
+            <div className="pt-2 border-t border-slate-100">
               <Link
-                href="/contact-us#quote"
+                href="/instrument-finder/"
                 onClick={() => setOpen(false)}
-                className="btn btn-accent w-full justify-center text-sm font-bold shadow-md"
+                className="group flex items-center justify-between rounded-lg border border-slate-200 bg-[#f8fafc] p-3 shadow-xs transition hover:border-[#0056B3]"
               >
-                Request a Quote <ArrowRight className="h-4 w-4" />
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#ebf3fc] text-[#0056B3]">
+                    <SlidersHorizontal className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-[#0056B3]">Instrument Finder</p>
+                    <p className="text-[11px] text-slate-500 leading-tight">
+                      Filter by test method or standard
+                    </p>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-[#0056B3]" />
               </Link>
-            </div>
-
-            {/* Contact Quick Action Bar: Call & Email */}
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-              <a
-                href={`tel:${site.phones.office.replace(/[^+\d]/g, "")}`}
-                onClick={() =>
-                  trackContactClick({
-                    type: "phone",
-                    value: site.phones.office,
-                    context: "mobile_menu",
-                  })
-                }
-                className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-2 text-xs font-semibold text-slate-700 hover:border-[#0056B3] hover:text-[#0056B3] transition"
-              >
-                <Phone className="h-3.5 w-3.5 text-[#0056B3]" /> Call Us
-              </a>
-              <a
-                href={`mailto:${site.email}`}
-                onClick={() =>
-                  trackContactClick({
-                    type: "email",
-                    value: site.email,
-                    context: "mobile_menu",
-                  })
-                }
-                className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-2 text-xs font-semibold text-slate-700 hover:border-[#0056B3] hover:text-[#0056B3] transition"
-              >
-                <Mail className="h-3.5 w-3.5 text-[#0056B3]" /> Email Us
-              </a>
             </div>
           </nav>
         </div>

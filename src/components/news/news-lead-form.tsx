@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Send, CheckCircle2, Phone, Mail, Building, User, Calendar, MessageSquare } from "lucide-react";
 import { trackGenerateLead } from "@/lib/analytics";
+import { FORM_FALLBACK_MESSAGE, submitForm } from "@/lib/submit-form";
 
 interface NewsLeadFormProps {
   itemTitle: string;
@@ -20,16 +21,26 @@ export function NewsLeadForm({ itemTitle, itemType, eventVenue }: NewsLeadFormPr
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [refId, setRefId] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
 
+    setError(null);
     try {
-      // Simulate submission or call API
-      await new Promise((r) => setTimeout(r, 800));
-      const generatedRef = `ORB-INQ-${Math.floor(100000 + Math.random() * 900000)}`;
-      setRefId(generatedRef);
+      const { referenceId } = await submitForm("News & Events", {
+        "Request Type": itemType === "event" ? "Stall meeting" : "Technical inquiry",
+        About: itemTitle,
+        Venue: eventVenue,
+        Name: fullName,
+        Email: email,
+        Phone: phone,
+        Company: organization,
+        "Preferred Date": preferredDate,
+        Notes: notes,
+      });
+      setRefId(referenceId);
       setSubmitted(true);
       trackGenerateLead({
         formId: itemType === "event" ? "event_stall_meeting" : "news_inquiry",
@@ -37,8 +48,8 @@ export function NewsLeadForm({ itemTitle, itemType, eventVenue }: NewsLeadFormPr
         productOrApplication: itemTitle,
         company: organization,
       });
-    } catch {
-      // Handle error gracefully
+    } catch (err) {
+      setError(err instanceof Error ? err.message : FORM_FALLBACK_MESSAGE);
     } finally {
       setSubmitting(false);
     }
@@ -186,6 +197,12 @@ export function NewsLeadForm({ itemTitle, itemType, eventVenue }: NewsLeadFormPr
             />
           </div>
         </div>
+
+        {error && (
+          <p role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+            {error}
+          </p>
+        )}
 
         <button
           type="submit"

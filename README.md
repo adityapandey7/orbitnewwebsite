@@ -22,8 +22,8 @@ required base path for the destination repository or deployment environment.
 
 The workflow in `.github/workflows/deploy.yml` builds and deploys the site when
 changes are pushed to `main`. Set **Settings → Pages → Build and deployment →
-Source** to **GitHub Actions**. The site will then be available at
-<https://adityapandey7.github.io/orbitnewwebsite/>.
+Source** to **GitHub Actions**. The base path is taken automatically from the
+repository's Pages URL, so the workflow works under any repository name.
 
 The quote form is currently a front-end demo and does not send or store
 submissions.
